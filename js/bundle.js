@@ -70,8 +70,8 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_structures_trees_bst_node__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__ = __webpack_require__(6);
 
 
 
@@ -79,18 +79,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 $( () => {
   window.LinkedList = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["a" /* LinkedList */];
   window.LinkedListNode = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["b" /* LinkedListNode */];
-  window.TreeNode = __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */];
-  window.BSTNode = __WEBPACK_IMPORTED_MODULE_2__data_structures_trees_bst_node__["a" /* BSTNode */];
+  window.TreeNode = __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */];
+  window.BSTNode = __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__["a" /* BSTNode */];
 
-  window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]("root");
+  window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("root");
 
-  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]("child1"));
-  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]("child2"));
-  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]("child3"));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child1"));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child2"));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child3"));
 
-  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]('child1-1'));
-  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]('child1-2'));
-  window.root.children[1].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]('child2-1'));
+  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child1-1'));
+  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child1-2'));
+  window.root.children[1].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child2-1'));
 
 });
 
@@ -234,7 +234,9 @@ class LinkedListNode {
 
 
 /***/ }),
-/* 3 */
+/* 3 */,
+/* 4 */,
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -320,7 +322,7 @@ class TreeNode {
 
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -336,7 +338,7 @@ class BSTNode {
   }
 
   insert(data) {
-    this.dataValidation(data);
+    this.validateInput(data);
 
     const child = (data <= this.data) ? this.leftChild : this.rightChild;
     const addChild =
@@ -350,6 +352,8 @@ class BSTNode {
   }
 
   search(data) {
+    this.validateInput(data);
+
     if (this.data === data) {
       return this;
     } else if (this.isLeaf()) {
@@ -394,7 +398,7 @@ class BSTNode {
     return !(this.leftChild) && !(this.rightChild);
   }
 
-  dataValidation(data) {
+  validateInput(data) {
     if (isNaN(data)) {
       throw new Error("Data must be an integer");
     }

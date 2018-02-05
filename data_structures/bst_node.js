@@ -10,7 +10,7 @@ export class BSTNode {
   }
 
   insert(data) {
-    this.dataValidation(data);
+    this.validateInput(data);
 
     const child = (data <= this.data) ? this.leftChild : this.rightChild;
     const addChild =
@@ -24,6 +24,8 @@ export class BSTNode {
   }
 
   search(data) {
+    this.validateInput(data);
+
     if (this.data === data) {
       return this;
     } else if (this.isLeaf()) {
@@ -68,7 +70,7 @@ export class BSTNode {
     return !(this.leftChild) && !(this.rightChild);
   }
 
-  dataValidation(data) {
+  validateInput(data) {
     if (isNaN(data)) {
       throw new Error("Data must be an integer");
     }
