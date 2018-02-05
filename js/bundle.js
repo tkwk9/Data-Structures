@@ -72,6 +72,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__ = __webpack_require__(7);
+
 
 
 
@@ -81,6 +83,8 @@ $( () => {
   window.LinkedListNode = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["b" /* LinkedListNode */];
   window.TreeNode = __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */];
   window.BSTNode = __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__["a" /* BSTNode */];
+  window.MinHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["b" /* MinHeap */];
+  window.MaxHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["a" /* MaxHeap */];
 
   window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("root");
 
@@ -405,6 +409,140 @@ class BSTNode {
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = BSTNode;
+
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Heap {
+  constructor() {
+    this.heap = [];
+    this.size = 0;
+  }
+
+  pop() {
+    if (this.size <= 1) return this.heap.pop();
+
+    const output = this.heap[0];
+    this.heap[0] = this.heap.pop();
+    this.size--;
+
+    let parentInd = 0;
+    let childInd = this.getCorrectChildIndex(0);
+
+    while(this.shouldSwap(childInd, parentInd)) {
+      this.swap(childInd, parentInd);
+      parentInd = childInd;
+      childInd = this.getCorrectChildIndex(parentInd);
+    }
+    return output;
+  }
+
+
+  insert(data) {
+    this.validateData(data);
+    this.heap.push(data);
+
+    let childInd = this.size;
+    let parentInd = this.parentIndex(childInd);
+    this.size++;
+
+    while (this.shouldSwap(childInd, parentInd)){
+      this.swap(childInd, parentInd);
+      childInd = parentInd;
+      parentInd = this.parentIndex(childInd);
+    }
+  }
+
+  swap(ind1, ind2) {
+    [this.heap[ind1], this.heap[ind2]] =
+      [this.heap[ind2], this.heap[ind1]];
+  }
+
+  validateData(data) {
+    if (isNaN(data)) {
+      throw new Error("Data must be a number");
+    }
+  }
+
+  leftChildIndex(ind) {
+    return ind * 2 + 1;
+  }
+
+  rightChildIndex(ind) {
+    return ind * 2 + 2;
+  }
+
+  parentIndex(ind) {
+    return Math.floor((ind - 1)/2);
+  }
+
+  hasLeftChild(ind) {
+    return this.leftChildIndex(ind) < this.size;
+  }
+
+  hasRightChild(ind) {
+    return this.rightChildIndex(ind) < this.size;
+  }
+}
+
+class MinHeap extends Heap {
+  constructor() {
+    super();
+  }
+
+  shouldSwap(childInd, parentInd) {
+    return this.heap[childInd] < this.heap[parentInd];
+  }
+
+
+  getCorrectChildIndex(parentInd){
+    if (this.hasLeftChild(parentInd)){
+      if (this.hasRightChild(parentInd)){
+        if (this.heap[this.leftChildIndex(parentInd)]
+          <= this.heap[this.rightChildIndex(parentInd)]){
+          return this.leftChildIndex(parentInd);
+        } else {
+          return this.rightChildIndex(parentInd);
+        }
+      } else {
+        return this.leftChildIndex(parentInd);
+      }
+    }
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = MinHeap;
+
+
+class MaxHeap extends Heap {
+  constructor() {
+    super();
+  }
+
+  shouldSwap(childInd, parentInd) {
+    return this.heap[childInd] > this.heap[parentInd];
+  }
+
+
+  getCorrectChildIndex(parentInd){
+    if (this.hasLeftChild(parentInd)){
+      if (this.hasRightChild(parentInd)){
+        if (this.heap[this.leftChildIndex(parentInd)]
+          >= this.heap[this.rightChildIndex(parentInd)]){
+          return this.leftChildIndex(parentInd);
+        } else {
+          return this.rightChildIndex(parentInd);
+        }
+      } else {
+        return this.leftChildIndex(parentInd);
+      }
+    }
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = MaxHeap;
 
 
 
