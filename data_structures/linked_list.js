@@ -64,13 +64,4 @@ export class LinkedListNode {
   constructor(data) {
     this.data = data;
   }
-
-  append(data) {
-    const newNode = new LinkedListNode(data);
-    let tempNode = this;
-    while (tempNode.next) {
-      tempNode = tempNode.next;
-    }
-    tempNode.next = newNode;
-  }
 }
