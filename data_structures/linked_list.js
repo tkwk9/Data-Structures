@@ -122,6 +122,5 @@ export class LinkedListNode {
     } else {
       return this.next.printSelf(output);
     }
-
   }
 }
