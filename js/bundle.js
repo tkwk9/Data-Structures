@@ -70,11 +70,26 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__ = __webpack_require__(3);
+
 
 
 $( () => {
   window.LinkedList = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["a" /* LinkedList */];
   window.LinkedListNode = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["b" /* LinkedListNode */];
+  window.TreeNode = __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */];
+
+
+  window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]("root");
+
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]("child1"));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]("child2"));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]("child3"));
+
+  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]('child1-1'));
+  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]('child1-2'));
+  window.root.children[1].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]('child2-1'));
+
 });
 
 
@@ -210,10 +225,95 @@ class LinkedListNode {
     } else {
       return this.next.printSelf(output);
     }
-
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["b"] = LinkedListNode;
+
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class TreeNode {
+  constructor(data) {
+    this.data = data;
+    this.children = [];
+    this.childCount = 0;
+    this.depth = 0;
+  }
+
+  addChild(node, ind = this.childCount) {
+    this.children[ind] = node;
+    this.childCount++;
+    node.setParent(this);
+  }
+
+  setParent(parent) {
+    this.parent = parent;
+    this.depth = parent.depth + 1;
+  }
+
+  bfs(data) {
+    let queue = this.children.slice();
+    while (queue.length > 0) {
+      let tempNode = queue.shift();
+      queue =  queue.concat(tempNode.children);
+      if (tempNode.data === data) return tempNode;
+    }
+    return null;
+  }
+
+  dfs(data) {
+    console.log(this.data);
+    if (this.data === data){
+      return this;
+    } else if (this.isLeaf()) {
+      return undefined;
+    }
+
+    let result;
+    for (let i = 0; i < this.childCount; i++) {
+      result = this.children[i].dfs(data);
+      if (result) return result;
+    }
+    return result;
+  }
+
+  swap(node) {
+    const newChildren = node.children;
+    const newChildCount = node.childCount;
+    const newParent = node.parent;
+
+    node.children = this.children;
+    node.childCount = this.childCount;
+
+    this.children = newChildren;
+    this.childCount = newChildCount;
+
+    const thisInd = this.parent.children.indexOf(this);
+    const nodeInd = node.parent.children.indexOf(node);
+
+    this.parent.addChild(node, thisInd);
+    newParent.addChild(this, nodeInd);
+  }
+
+  printSelf(output = {}) {
+    output[this.data] = {};
+    if (!this.isLeaf()) {
+      this.children.forEach(child => {
+        child.printSelf(output[this.data]);
+      });
+    }
+    return output;
+  }
+
+  isLeaf() {
+    return this.children.length === 0;
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = TreeNode;
 
 
 
