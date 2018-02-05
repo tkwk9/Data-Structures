@@ -1,11 +1,12 @@
 import * as LL from '../data_structures/linked_list';
 import {TreeNode} from '../data_structures/trees/tree_node';
+import {BSTNode} from '../data_structures/trees/bst_node';
 
 $( () => {
   window.LinkedList = LL.LinkedList;
   window.LinkedListNode = LL.LinkedListNode;
   window.TreeNode = TreeNode;
-
+  window.BSTNode = BSTNode;
 
   window.root = new TreeNode("root");
 

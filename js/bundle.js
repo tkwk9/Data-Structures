@@ -71,6 +71,8 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_structures_trees_bst_node__ = __webpack_require__(4);
+
 
 
 
@@ -78,7 +80,7 @@ $( () => {
   window.LinkedList = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["a" /* LinkedList */];
   window.LinkedListNode = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["b" /* LinkedListNode */];
   window.TreeNode = __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */];
-
+  window.BSTNode = __WEBPACK_IMPORTED_MODULE_2__data_structures_trees_bst_node__["a" /* BSTNode */];
 
   window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_trees_tree_node__["a" /* TreeNode */]("root");
 
@@ -310,10 +312,95 @@ class TreeNode {
   }
 
   isLeaf() {
-    return this.children.length === 0;
+    return this.childCount === 0;
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = TreeNode;
+
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class BSTNode {
+  constructor(data) {
+    this.data = data;
+    this.depth = 0;
+    this.left = undefined;
+    this.right = undefined;
+
+    this.addLeftChild = this.addLeftChild.bind(this);
+    this.addRightChild = this.addRightChild.bind(this);
+  }
+
+  insert(data) {
+    this.dataValidation(data);
+
+    const child = (data <= this.data) ? this.leftChild : this.rightChild;
+    const addChild =
+      (data <= this.data) ? this.addLeftChild : this.addRightChild;
+
+    if (child) {
+      child.insert(data);
+    } else {
+      addChild(new BSTNode(data));
+    }
+  }
+
+  search(data) {
+    if (this.data === data) {
+      return this;
+    } else if (this.isLeaf()) {
+      return undefined;
+    }
+    const child = (data < this.data) ? this.leftChild : this.rightChild;
+    if (child) {
+      return child.search(data);
+    } else {
+      return false;
+    }
+  }
+
+  addLeftChild(childNode) {
+    this.leftChild = childNode;
+    this.leftChild.parent = this;
+    this.leftChild.depth = this.depth + 1;
+  }
+
+  addRightChild(childNode) {
+    this.rightChild = childNode;
+    this.rightChild.parent = this;
+    this.rightChild.depth = this.depth + 1;
+  }
+
+  printSelf(output = {}) {
+    output.data = this.data;
+    output.left = {};
+    output.right = {};
+
+    if (this.leftChild) {
+      this.leftChild.printSelf(output.left);
+    }
+    if (this.rightChild) {
+      this.rightChild.printSelf(output.right);
+    }
+
+    return output;
+  }
+
+  isLeaf() {
+    return !(this.leftChild) && !(this.rightChild);
+  }
+
+  dataValidation(data) {
+    if (isNaN(data)) {
+      throw new Error("Data must be an integer");
+    }
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = BSTNode;
 
 
 

@@ -72,6 +72,6 @@ export class TreeNode {
   }
 
   isLeaf() {
-    return this.children.length === 0;
+    return this.childCount === 0;
   }
 }
