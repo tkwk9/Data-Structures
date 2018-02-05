@@ -64,4 +64,36 @@ export class LinkedListNode {
   constructor(data) {
     this.data = data;
   }
+
+  append(data) {
+    const newNode = new LinkedListNode(data);
+    let tempNode = this;
+    while (tempNode.next) {
+      tempNode = tempNode.next;
+    }
+    tempNode.next = newNode;
+    newNode.prev = tempNode;
+  }
+
+  deleteNext(){
+    let tempNode = this.next;
+    this.next = this.next.next;
+    if (this.next) this.next.prev = this;
+
+    tempNode.next = undefined;
+    tempNode.prev = undefined;
+    
+    return tempNode;
+  }
+
+  deleteWithData(data) {
+    let tempNode = this;
+    while (tempNode.next.data !== data) {
+      tempNode = tempNode.next;
+      if (tempNode.next === undefined) {
+        return null;
+      }
+    }
+    return tempNode.deleteNext();
+  }
 }
