@@ -58,6 +58,17 @@ export class LinkedList {
 
     return this.deleteNode(tempNode.next);
   }
+
+  printSelf() {
+    let output = ["[Head]"];
+    let tempNode = this.head;
+    while (tempNode.next !== this.tail) {
+      tempNode = tempNode.next;
+      output.push(`<->[${tempNode.data}]`);
+    }
+    output.push(`<->[Tail]`);
+    return output.join('');
+  }
 }
 
 export class LinkedListNode {
@@ -73,6 +84,8 @@ export class LinkedListNode {
     }
     tempNode.next = newNode;
     newNode.prev = tempNode;
+
+    return tempNode;
   }
 
   deleteNext(){
@@ -82,7 +95,7 @@ export class LinkedListNode {
 
     tempNode.next = undefined;
     tempNode.prev = undefined;
-    
+
     return tempNode;
   }
 
@@ -95,5 +108,20 @@ export class LinkedListNode {
       }
     }
     return tempNode.deleteNext();
+  }
+
+  printSelf(output = []) {
+    if (this.prev === undefined) {
+      output.push(`[${this.data}]`);
+    } else {
+      output.push(`<->[${this.data}]`);
+    }
+
+    if (this.next === undefined) {
+      return output.join('');
+    } else {
+      return this.next.printSelf(output);
+    }
+
   }
 }
