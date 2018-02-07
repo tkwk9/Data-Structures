@@ -4,6 +4,10 @@ class Heap {
     this.size = 0;
   }
 
+  isEmpty() {
+    return this.size === 0;
+  }
+
   pop() {
     if (this.size <= 1) return this.heap.pop();
 
@@ -22,6 +26,9 @@ class Heap {
     return output;
   }
 
+  peek() {
+    return this.heap[0];
+  }
 
   insert(data) {
     this.validateData(data);
