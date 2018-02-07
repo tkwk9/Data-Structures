@@ -2,6 +2,7 @@ import * as LL from '../data_structures/linked_list';
 import {TreeNode} from '../data_structures/tree_node';
 import {BSTNode} from '../data_structures/bst_node';
 import {MinHeap, MaxHeap} from '../data_structures/heap';
+import {Graph} from '../data_structures/graph';
 
 $( () => {
   window.LinkedList = LL.LinkedList;
@@ -10,6 +11,7 @@ $( () => {
   window.BSTNode = BSTNode;
   window.MinHeap = MinHeap;
   window.MaxHeap = MaxHeap;
+  window.Graph = Graph;
 
   window.root = new TreeNode("root");
 

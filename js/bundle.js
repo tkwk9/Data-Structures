@@ -73,6 +73,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__ = __webpack_require__(8);
+
 
 
 
@@ -85,6 +87,7 @@ $( () => {
   window.BSTNode = __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__["a" /* BSTNode */];
   window.MinHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["b" /* MinHeap */];
   window.MaxHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["a" /* MaxHeap */];
+  window.Graph = __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__["a" /* Graph */];
 
   window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("root");
 
@@ -423,6 +426,10 @@ class Heap {
     this.size = 0;
   }
 
+  isEmpty() {
+    return this.size === 0;
+  }
+
   pop() {
     if (this.size <= 1) return this.heap.pop();
 
@@ -441,6 +448,9 @@ class Heap {
     return output;
   }
 
+  peek() {
+    return this.heap[0];
+  }
 
   insert(data) {
     this.validateData(data);
@@ -544,6 +554,82 @@ class MaxHeap extends Heap {
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = MaxHeap;
 
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__linked_list__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__heap__ = __webpack_require__(7);
+
+
+
+class Graph {
+  constructor() {
+    this.nodes = {};
+    this.lastId = 0;
+  }
+
+  addNode(data, node) {
+    const tempNode = new GraphNode(this.createId(), data);
+    this.nodes[tempNode.id] = tempNode;
+    if (node) this.addEdge(tempNode.id, node.id);
+    return tempNode;
+  }
+
+  createId() {
+    this.lastId++;
+    return this.lastId;
+  }
+
+  getNode(id) {
+    return this.nodes[id];
+  }
+
+  removeNode(id) {
+    const tempNode = this.nodes[id].removeSelf();
+    delete this.nodes[id];
+    return tempNode;
+  }
+
+  addEdge(id1, id2) {
+    this.getNode(id1)
+      .connect(this.getNode(id2));
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Graph;
+
+
+class GraphNode {
+  constructor(id, data) {
+    this.id = id;
+    this.data = data;
+    this.adjacents = [];
+  }
+
+  removeSelf() {
+    const tempAdj = this.adjacent.slice();
+    tempAdj.forEach(node => {
+      this.disconnect(node);
+    });
+    return this;
+  }
+
+  connect(node){
+    this.adjacents.push(node);
+    node.adjacents.push(this);
+    return node;
+  }
+
+  disconnect(node) {
+    this.adjacents.splice(this.adjacents.indexOf(node), 1);
+    node.adjacents.splice(node.adjacents.indexOf(this), 1);
+    return node;
+  }
+
+}
 
 
 /***/ })
