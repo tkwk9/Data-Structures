@@ -60,55 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__seed__ = __webpack_require__(9);
-
-
-
-
-
-
-
-$( () => {
-  window.LinkedList = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["a" /* LinkedList */];
-  window.LinkedListNode = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["b" /* LinkedListNode */];
-  window.TreeNode = __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */];
-  window.BSTNode = __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__["a" /* BSTNode */];
-  window.MinHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["b" /* MinHeap */];
-  window.MaxHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["a" /* MaxHeap */];
-  window.Graph = __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__["a" /* Graph */];
-
-  window.g = __WEBPACK_IMPORTED_MODULE_5__seed__["a" /* seedGraph */]();
-
-  window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("root");
-
-  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child1"));
-  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child2"));
-  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child3"));
-
-  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child1-1'));
-  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child1-2'));
-  window.root.children[1].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child2-1'));
-
-});
-
-
-/***/ }),
-/* 1 */,
-/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -135,6 +91,19 @@ class LinkedList {
     return newNode;
   }
 
+  prependArray(array) {
+    array.forEach(data => {
+      this.prepend(data);
+    });
+  }
+
+  pop() {
+    return this.deleteNode(this.tail.prev).data;
+  }
+  shift() {
+    return this.deleteNode(this.head.next).data;
+  }
+
   prepend(data) {
     const newNode = new LinkedListNode(data);
 
@@ -145,6 +114,10 @@ class LinkedList {
     this.head.next = newNode;
     this.size++;
     return newNode;
+  }
+
+  isEmpty() {
+    return this.size === 0;
   }
 
   deleteNode(node) {
@@ -245,182 +218,7 @@ class LinkedListNode {
 
 
 /***/ }),
-/* 3 */,
-/* 4 */,
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-class TreeNode {
-  constructor(data) {
-    this.data = data;
-    this.children = [];
-    this.childCount = 0;
-    this.depth = 0;
-  }
-
-  addChild(node, ind = this.childCount) {
-    this.children[ind] = node;
-    this.childCount++;
-    node.setParent(this);
-  }
-
-  setParent(parent) {
-    this.parent = parent;
-    this.depth = parent.depth + 1;
-  }
-
-  bfs(data) {
-    let queue = this.children.slice();
-    while (queue.length > 0) {
-      let tempNode = queue.shift();
-      queue =  queue.concat(tempNode.children);
-      if (tempNode.data === data) return tempNode;
-    }
-    return null;
-  }
-
-  dfs(data) {
-    console.log(this.data);
-    if (this.data === data){
-      return this;
-    } else if (this.isLeaf()) {
-      return undefined;
-    }
-
-    let result;
-    for (let i = 0; i < this.childCount; i++) {
-      result = this.children[i].dfs(data);
-      if (result) return result;
-    }
-    return result;
-  }
-
-  swap(node) {
-    const newChildren = node.children;
-    const newChildCount = node.childCount;
-    const newParent = node.parent;
-
-    node.children = this.children;
-    node.childCount = this.childCount;
-
-    this.children = newChildren;
-    this.childCount = newChildCount;
-
-    const thisInd = this.parent.children.indexOf(this);
-    const nodeInd = node.parent.children.indexOf(node);
-
-    this.parent.addChild(node, thisInd);
-    newParent.addChild(this, nodeInd);
-  }
-
-  printSelf(output = {}) {
-    output[this.data] = {};
-    if (!this.isLeaf()) {
-      this.children.forEach(child => {
-        child.printSelf(output[this.data]);
-      });
-    }
-    return output;
-  }
-
-  isLeaf() {
-    return this.childCount === 0;
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = TreeNode;
-
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-class BSTNode {
-  constructor(data) {
-    this.data = data;
-    this.depth = 0;
-    this.left = undefined;
-    this.right = undefined;
-
-    this.addLeftChild = this.addLeftChild.bind(this);
-    this.addRightChild = this.addRightChild.bind(this);
-  }
-
-  insert(data) {
-    this.validateInput(data);
-
-    const child = (data <= this.data) ? this.leftChild : this.rightChild;
-    const addChild =
-      (data <= this.data) ? this.addLeftChild : this.addRightChild;
-
-    if (child) {
-      child.insert(data);
-    } else {
-      addChild(new BSTNode(data));
-    }
-  }
-
-  search(data) {
-    this.validateInput(data);
-
-    if (this.data === data) {
-      return this;
-    } else if (this.isLeaf()) {
-      return undefined;
-    }
-    const child = (data < this.data) ? this.leftChild : this.rightChild;
-    if (child) {
-      return child.search(data);
-    } else {
-      return false;
-    }
-  }
-
-  addLeftChild(childNode) {
-    this.leftChild = childNode;
-    this.leftChild.parent = this;
-    this.leftChild.depth = this.depth + 1;
-  }
-
-  addRightChild(childNode) {
-    this.rightChild = childNode;
-    this.rightChild.parent = this;
-    this.rightChild.depth = this.depth + 1;
-  }
-
-  printSelf(output = {}) {
-    output.data = this.data;
-    output.left = {};
-    output.right = {};
-
-    if (this.leftChild) {
-      this.leftChild.printSelf(output.left);
-    }
-    if (this.rightChild) {
-      this.rightChild.printSelf(output.right);
-    }
-
-    return output;
-  }
-
-  isLeaf() {
-    return !(this.leftChild) && !(this.rightChild);
-  }
-
-  validateInput(data) {
-    if (isNaN(data)) {
-      throw new Error("Data must be an integer");
-    }
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = BSTNode;
-
-
-
-/***/ }),
-/* 7 */
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -561,12 +359,12 @@ class MaxHeap extends Heap {
 
 
 /***/ }),
-/* 8 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__linked_list__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__heap__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__linked_list__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__heap__ = __webpack_require__(1);
 
 
 
@@ -577,16 +375,17 @@ class Graph {
     this.size = 0;
   }
 
-  dfs(node, targetId, trace = new __WEBPACK_IMPORTED_MODULE_0__linked_list__["a" /* LinkedList */](), visited = new Set()) {
-    visited.add(node.id);
-    if (node.id === targetId) {
-      trace.prepend(node.id);
+  dfs(id, targetId, trace = new __WEBPACK_IMPORTED_MODULE_0__linked_list__["a" /* LinkedList */](), visited = new Set()) {
+    visited.add(id);
+    if (id === targetId) {
+      trace.prepend(id);
       return trace;
     }
+    let node = this.getNode(id);
     for (let i = 0; i < node.adjacents.length; i++) {
       const tempNode = node.adjacents[i];
       if (!visited.has(tempNode.id)){
-        const result = this.dfs(node.adjacents[i], targetId, trace, visited);
+        const result = this.dfs(tempNode.id, targetId, trace, visited);
         if (result) {
           result.prepend(node.id);
           return result;
@@ -594,6 +393,45 @@ class Graph {
       }
     }
     return false;
+  }
+
+  bfs(startId, endId) {
+    const visited = new Set();
+    const referral = {};
+    const queue = new __WEBPACK_IMPORTED_MODULE_0__linked_list__["a" /* LinkedList */]();
+
+    queue.prepend(this.getNode(startId));
+    referral[startId] = false;
+    visited.add(startId);
+    while (!queue.isEmpty()) {
+      const tempNode = queue.pop();
+      this.addAdjacents(tempNode, visited, queue, referral);
+      if (tempNode.id === endId){
+        return this.tracePath(tempNode, referral);
+      }
+    }
+    return false;
+  }
+
+  tracePath(endNode, referral) {
+    const trace = new __WEBPACK_IMPORTED_MODULE_0__linked_list__["a" /* LinkedList */]();
+    trace.prepend(endNode.id);
+    let tempNode = referral[endNode.id];
+    while (tempNode){
+      trace.prepend(tempNode.id);
+      tempNode = referral[tempNode.id];
+    }
+    return trace;
+  }
+
+  addAdjacents(sourceNode, visited, queue, referral) {
+    sourceNode.adjacents.forEach(node => {
+      if (!visited.has(node.id)) {
+        visited.add(node.id);
+        queue.prepend(node);
+        referral[node.id] = sourceNode;
+      }
+    });
   }
 
   addNode(node, data) {
@@ -659,11 +497,227 @@ class GraphNode {
 
 
 /***/ }),
-/* 9 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data_structures_graph__ = __webpack_require__(8);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__seed__ = __webpack_require__(6);
+
+
+
+
+
+
+
+$( () => {
+  window.LinkedList = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["a" /* LinkedList */];
+  window.LinkedListNode = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["b" /* LinkedListNode */];
+  window.TreeNode = __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */];
+  window.BSTNode = __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__["a" /* BSTNode */];
+  window.MinHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["b" /* MinHeap */];
+  window.MaxHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["a" /* MaxHeap */];
+  window.Graph = __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__["a" /* Graph */];
+
+  window.g = __WEBPACK_IMPORTED_MODULE_5__seed__["a" /* seedGraph */]();
+
+  window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("root");
+
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child1"));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child2"));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child3"));
+
+  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child1-1'));
+  window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child1-2'));
+  window.root.children[1].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child2-1'));
+
+});
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class TreeNode {
+  constructor(data) {
+    this.data = data;
+    this.children = [];
+    this.childCount = 0;
+    this.depth = 0;
+  }
+
+  addChild(node, ind = this.childCount) {
+    this.children[ind] = node;
+    this.childCount++;
+    node.setParent(this);
+  }
+
+  setParent(parent) {
+    this.parent = parent;
+    this.depth = parent.depth + 1;
+  }
+
+  bfs(data) {
+    let queue = this.children.slice();
+    while (queue.length > 0) {
+      let tempNode = queue.shift();
+      queue =  queue.concat(tempNode.children);
+      if (tempNode.data === data) return tempNode;
+    }
+    return null;
+  }
+
+  dfs(data) {
+    console.log(this.data);
+    if (this.data === data){
+      return this;
+    } else if (this.isLeaf()) {
+      return undefined;
+    }
+
+    let result;
+    for (let i = 0; i < this.childCount; i++) {
+      result = this.children[i].dfs(data);
+      if (result) return result;
+    }
+    return result;
+  }
+
+  swap(node) {
+    const newChildren = node.children;
+    const newChildCount = node.childCount;
+    const newParent = node.parent;
+
+    node.children = this.children;
+    node.childCount = this.childCount;
+
+    this.children = newChildren;
+    this.childCount = newChildCount;
+
+    const thisInd = this.parent.children.indexOf(this);
+    const nodeInd = node.parent.children.indexOf(node);
+
+    this.parent.addChild(node, thisInd);
+    newParent.addChild(this, nodeInd);
+  }
+
+  printSelf(output = {}) {
+    output[this.data] = {};
+    if (!this.isLeaf()) {
+      this.children.forEach(child => {
+        child.printSelf(output[this.data]);
+      });
+    }
+    return output;
+  }
+
+  isLeaf() {
+    return this.childCount === 0;
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = TreeNode;
+
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class BSTNode {
+  constructor(data) {
+    this.data = data;
+    this.depth = 0;
+    this.left = undefined;
+    this.right = undefined;
+
+    this.addLeftChild = this.addLeftChild.bind(this);
+    this.addRightChild = this.addRightChild.bind(this);
+  }
+
+  insert(data) {
+    this.validateInput(data);
+
+    const child = (data <= this.data) ? this.leftChild : this.rightChild;
+    const addChild =
+      (data <= this.data) ? this.addLeftChild : this.addRightChild;
+
+    if (child) {
+      child.insert(data);
+    } else {
+      addChild(new BSTNode(data));
+    }
+  }
+
+  search(data) {
+    this.validateInput(data);
+
+    if (this.data === data) {
+      return this;
+    } else if (this.isLeaf()) {
+      return undefined;
+    }
+    const child = (data < this.data) ? this.leftChild : this.rightChild;
+    if (child) {
+      return child.search(data);
+    } else {
+      return false;
+    }
+  }
+
+  addLeftChild(childNode) {
+    this.leftChild = childNode;
+    this.leftChild.parent = this;
+    this.leftChild.depth = this.depth + 1;
+  }
+
+  addRightChild(childNode) {
+    this.rightChild = childNode;
+    this.rightChild.parent = this;
+    this.rightChild.depth = this.depth + 1;
+  }
+
+  printSelf(output = {}) {
+    output.data = this.data;
+    output.left = {};
+    output.right = {};
+
+    if (this.leftChild) {
+      this.leftChild.printSelf(output.left);
+    }
+    if (this.rightChild) {
+      this.rightChild.printSelf(output.right);
+    }
+
+    return output;
+  }
+
+  isLeaf() {
+    return !(this.leftChild) && !(this.rightChild);
+  }
+
+  validateInput(data) {
+    if (isNaN(data)) {
+      throw new Error("Data must be an integer");
+    }
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = BSTNode;
+
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data_structures_graph__ = __webpack_require__(2);
 
 
 const seedGraph = () => {

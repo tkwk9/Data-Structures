@@ -21,6 +21,12 @@ export class LinkedList {
     return newNode;
   }
 
+  prependArray(array) {
+    array.forEach(data => {
+      this.prepend(data);
+    });
+  }
+
   pop() {
     return this.deleteNode(this.tail.prev).data;
   }

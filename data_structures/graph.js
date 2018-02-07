@@ -8,16 +8,17 @@ export class Graph {
     this.size = 0;
   }
 
-  dfs(node, targetId, trace = new LinkedList(), visited = new Set()) {
-    visited.add(node.id);
-    if (node.id === targetId) {
-      trace.prepend(node.id);
+  dfs(id, targetId, trace = new LinkedList(), visited = new Set()) {
+    visited.add(id);
+    if (id === targetId) {
+      trace.prepend(id);
       return trace;
     }
+    let node = this.getNode(id);
     for (let i = 0; i < node.adjacents.length; i++) {
       const tempNode = node.adjacents[i];
       if (!visited.has(tempNode.id)){
-        const result = this.dfs(node.adjacents[i], targetId, trace, visited);
+        const result = this.dfs(tempNode.id, targetId, trace, visited);
         if (result) {
           result.prepend(node.id);
           return result;
@@ -25,6 +26,45 @@ export class Graph {
       }
     }
     return false;
+  }
+
+  bfs(startId, endId) {
+    const visited = new Set();
+    const referral = {};
+    const queue = new LinkedList();
+
+    queue.prepend(this.getNode(startId));
+    referral[startId] = false;
+    visited.add(startId);
+    while (!queue.isEmpty()) {
+      const tempNode = queue.pop();
+      this.addAdjacents(tempNode, visited, queue, referral);
+      if (tempNode.id === endId){
+        return this.tracePath(tempNode, referral);
+      }
+    }
+    return false;
+  }
+
+  tracePath(endNode, referral) {
+    const trace = new LinkedList();
+    trace.prepend(endNode.id);
+    let tempNode = referral[endNode.id];
+    while (tempNode){
+      trace.prepend(tempNode.id);
+      tempNode = referral[tempNode.id];
+    }
+    return trace;
+  }
+
+  addAdjacents(sourceNode, visited, queue, referral) {
+    sourceNode.adjacents.forEach(node => {
+      if (!visited.has(node.id)) {
+        visited.add(node.id);
+        queue.prepend(node);
+        referral[node.id] = sourceNode;
+      }
+    });
   }
 
   addNode(node, data) {
