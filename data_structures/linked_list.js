@@ -21,6 +21,13 @@ export class LinkedList {
     return newNode;
   }
 
+  pop() {
+    return this.deleteNode(this.tail.prev).data;
+  }
+  shift() {
+    return this.deleteNode(this.head.next).data;
+  }
+
   prepend(data) {
     const newNode = new LinkedListNode(data);
 
