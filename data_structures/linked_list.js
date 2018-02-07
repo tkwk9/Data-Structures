@@ -40,6 +40,10 @@ export class LinkedList {
     return newNode;
   }
 
+  isEmpty() {
+    return this.size === 0;
+  }
+
   deleteNode(node) {
     const prev = node.prev;
     const next = node.next;
