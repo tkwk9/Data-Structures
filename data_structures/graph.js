@@ -8,10 +8,10 @@ export class Graph {
   }
 
   addNode(data, node) {
-    const tempNode = new GraphNode(this.createId(), data);
-    this.nodes[tempNode.id] = tempNode;
-    if (node) this.addEdge(tempNode.id, node.id);
-    return tempNode;
+    const newNode = new GraphNode(this.createId(), data);
+    this.nodes[newNode.id] = newNode;
+    if (node) this.addEdge(newNode.id, node.id);
+    return newNode;
   }
 
   createId() {

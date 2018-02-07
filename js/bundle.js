@@ -74,6 +74,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__seed__ = __webpack_require__(9);
+
 
 
 
@@ -88,6 +90,8 @@ $( () => {
   window.MinHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["b" /* MinHeap */];
   window.MaxHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["a" /* MaxHeap */];
   window.Graph = __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__["a" /* Graph */];
+
+  window.g = __WEBPACK_IMPORTED_MODULE_5__seed__["a" /* seedGraph */]();
 
   window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("root");
 
@@ -573,10 +577,10 @@ class Graph {
   }
 
   addNode(data, node) {
-    const tempNode = new GraphNode(this.createId(), data);
-    this.nodes[tempNode.id] = tempNode;
-    if (node) this.addEdge(tempNode.id, node.id);
-    return tempNode;
+    const newNode = new GraphNode(this.createId(), data);
+    this.nodes[newNode.id] = newNode;
+    if (node) this.addEdge(newNode.id, node.id);
+    return newNode;
   }
 
   createId() {
@@ -630,6 +634,31 @@ class GraphNode {
   }
 
 }
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data_structures_graph__ = __webpack_require__(8);
+
+
+const seedGraph = () => {
+  const g = new __WEBPACK_IMPORTED_MODULE_0__data_structures_graph__["a" /* Graph */]();
+  let start = g.addNode();
+  loop(5)(() => g.addNode(undefined, start));
+  return g;
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = seedGraph;
+
+
+const loop = loopCount => callback => {
+  if (loopCount > 0) {
+    callback();
+    loop (loopCount - 1) (callback);
+  }
+};
 
 
 /***/ })
