@@ -5,12 +5,33 @@ export class Graph {
   constructor() {
     this.nodes = {};
     this.lastId = 0;
+    this.size = 0;
   }
 
-  addNode(data, node) {
+  dfs(node, targetId, trace = new LinkedList(), visited = new Set()) {
+    visited.add(node.id);
+    if (node.id === targetId) {
+      trace.prepend(node.id);
+      return trace;
+    }
+    for (let i = 0; i < node.adjacents.length; i++) {
+      const tempNode = node.adjacents[i];
+      if (!visited.has(tempNode.id)){
+        const result = this.dfs(node.adjacents[i], targetId, trace, visited);
+        if (result) {
+          result.prepend(node.id);
+          return result;
+        }
+      }
+    }
+    return false;
+  }
+
+  addNode(node, data) {
     const newNode = new GraphNode(this.createId(), data);
     this.nodes[newNode.id] = newNode;
     if (node) this.addEdge(newNode.id, node.id);
+    this.size++;
     return newNode;
   }
 
@@ -26,6 +47,7 @@ export class Graph {
   removeNode(id) {
     const tempNode = this.nodes[id].removeSelf();
     delete this.nodes[id];
+    this.size--;
     return tempNode;
   }
 
@@ -43,7 +65,7 @@ class GraphNode {
   }
 
   removeSelf() {
-    const tempAdj = this.adjacent.slice();
+    const tempAdj = this.adjacents.slice();
     tempAdj.forEach(node => {
       this.disconnect(node);
     });

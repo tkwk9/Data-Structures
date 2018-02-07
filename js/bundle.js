@@ -574,12 +574,33 @@ class Graph {
   constructor() {
     this.nodes = {};
     this.lastId = 0;
+    this.size = 0;
   }
 
-  addNode(data, node) {
+  dfs(node, targetId, trace = new __WEBPACK_IMPORTED_MODULE_0__linked_list__["a" /* LinkedList */](), visited = new Set()) {
+    visited.add(node.id);
+    if (node.id === targetId) {
+      trace.prepend(node.id);
+      return trace;
+    }
+    for (let i = 0; i < node.adjacents.length; i++) {
+      const tempNode = node.adjacents[i];
+      if (!visited.has(tempNode.id)){
+        const result = this.dfs(node.adjacents[i], targetId, trace, visited);
+        if (result) {
+          result.prepend(node.id);
+          return result;
+        }
+      }
+    }
+    return false;
+  }
+
+  addNode(node, data) {
     const newNode = new GraphNode(this.createId(), data);
     this.nodes[newNode.id] = newNode;
     if (node) this.addEdge(newNode.id, node.id);
+    this.size++;
     return newNode;
   }
 
@@ -595,6 +616,7 @@ class Graph {
   removeNode(id) {
     const tempNode = this.nodes[id].removeSelf();
     delete this.nodes[id];
+    this.size--;
     return tempNode;
   }
 
@@ -614,7 +636,7 @@ class GraphNode {
   }
 
   removeSelf() {
-    const tempAdj = this.adjacent.slice();
+    const tempAdj = this.adjacents.slice();
     tempAdj.forEach(node => {
       this.disconnect(node);
     });
@@ -647,7 +669,17 @@ class GraphNode {
 const seedGraph = () => {
   const g = new __WEBPACK_IMPORTED_MODULE_0__data_structures_graph__["a" /* Graph */]();
   let start = g.addNode();
-  loop(5)(() => g.addNode(undefined, start));
+  loop(5)(() => g.addNode(start));
+  let node2 = g.getNode(2);
+  loop(2)(() => g.addNode(node2));
+  let node8 = g.getNode(8);
+  let node9 = g.addNode(node8);
+  let node10 = g.addNode(node9);
+  let node11 = g.addNode(node10);
+  let node12 = g.addNode(node11);
+  g.addEdge(4, 11);
+  g.addEdge(5, 12);
+  g.addEdge(1, 12);
   return g;
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = seedGraph;
