@@ -26,4 +26,14 @@ $( () => {
   window.root.children[0].addChild(new TreeNode('child1-2'));
   window.root.children[1].addChild(new TreeNode('child2-1'));
 
+  window.flatten = array => {
+    if (array.length === 0) return array;
+
+    if (Array.isArray(array[0])) {
+      return window.flatten(array[0].concat(array.slice(1)));
+    } else {
+      return [array[0]].concat(window.flatten(array.slice(1)));
+    }
+  };
+
 });
