@@ -12,9 +12,8 @@ export class BSTNode {
   insert(data) {
     this.validateInput(data);
 
-    const child = (data <= this.data) ? this.leftChild : this.rightChild;
-    const addChild =
-      (data <= this.data) ? this.addLeftChild : this.addRightChild;
+    const child = data <= this.data ? this.leftChild : this.rightChild;
+    const addChild = data <= this.data ? this.addLeftChild : this.addRightChild;
 
     if (child) {
       child.insert(data);
@@ -31,7 +30,7 @@ export class BSTNode {
     } else if (this.isLeaf()) {
       return undefined;
     }
-    const child = (data < this.data) ? this.leftChild : this.rightChild;
+    const child = data < this.data ? this.leftChild : this.rightChild;
     if (child) {
       return child.search(data);
     } else {
@@ -67,12 +66,12 @@ export class BSTNode {
   }
 
   isLeaf() {
-    return !(this.leftChild) && !(this.rightChild);
+    return !this.leftChild && !this.rightChild;
   }
 
   validateInput(data) {
     if (isNaN(data)) {
-      throw new Error("Data must be an integer");
+      throw new Error('Data must be an integer');
     }
   }
 }

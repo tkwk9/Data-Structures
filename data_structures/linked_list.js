@@ -77,7 +77,7 @@ export class LinkedList {
   }
 
   printSelf() {
-    let output = ["[Head]"];
+    let output = ['[Head]'];
     let tempNode = this.head;
     while (tempNode.next !== this.tail) {
       tempNode = tempNode.next;
@@ -105,7 +105,7 @@ export class LinkedListNode {
     return tempNode;
   }
 
-  deleteNext(){
+  deleteNext() {
     let tempNode = this.next;
     this.next = this.next.next;
     if (this.next) this.next.prev = this;

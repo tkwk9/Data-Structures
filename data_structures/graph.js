@@ -1,5 +1,5 @@
-import {LinkedList} from './linked_list';
-import {MaxHeap} from './heap';
+import { LinkedList } from './linked_list';
+import { MaxHeap } from './heap';
 
 export class Graph {
   constructor() {
@@ -17,7 +17,7 @@ export class Graph {
     let node = this.getNode(id);
     for (let i = 0; i < node.adjacents.length; i++) {
       const tempNode = node.adjacents[i];
-      if (!visited.has(tempNode.id)){
+      if (!visited.has(tempNode.id)) {
         const result = this.dfs(tempNode.id, targetId, trace, visited);
         if (result) {
           result.prepend(node.id);
@@ -39,7 +39,7 @@ export class Graph {
     while (!queue.isEmpty()) {
       const tempNode = queue.pop();
       this.addAdjacents(tempNode, visited, queue, referral);
-      if (tempNode.id === endId){
+      if (tempNode.id === endId) {
         return this.tracePath(tempNode, referral);
       }
     }
@@ -50,7 +50,7 @@ export class Graph {
     const trace = new LinkedList();
     trace.prepend(endNode.id);
     let tempNode = referral[endNode.id];
-    while (tempNode){
+    while (tempNode) {
       trace.prepend(tempNode.id);
       tempNode = referral[tempNode.id];
     }
@@ -92,8 +92,7 @@ export class Graph {
   }
 
   addEdge(id1, id2) {
-    this.getNode(id1)
-      .connect(this.getNode(id2));
+    this.getNode(id1).connect(this.getNode(id2));
   }
 }
 
@@ -112,7 +111,7 @@ class GraphNode {
     return this;
   }
 
-  connect(node){
+  connect(node) {
     this.adjacents.push(node);
     node.adjacents.push(this);
     return node;
@@ -123,5 +122,4 @@ class GraphNode {
     node.adjacents.splice(node.adjacents.indexOf(this), 1);
     return node;
   }
-
 }

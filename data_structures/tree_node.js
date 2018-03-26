@@ -21,7 +21,7 @@ export class TreeNode {
     let queue = this.children.slice();
     while (queue.length > 0) {
       let tempNode = queue.shift();
-      queue =  queue.concat(tempNode.children);
+      queue = queue.concat(tempNode.children);
       if (tempNode.data === data) return tempNode;
     }
     return null;
@@ -29,7 +29,7 @@ export class TreeNode {
 
   dfs(data) {
     console.log(this.data);
-    if (this.data === data){
+    if (this.data === data) {
       return this;
     } else if (this.isLeaf()) {
       return undefined;

@@ -18,7 +18,7 @@ class Heap {
     let parentInd = 0;
     let childInd = this.getCorrectChildIndex(0);
 
-    while(this.shouldSwap(childInd, parentInd)) {
+    while (this.shouldSwap(childInd, parentInd)) {
       this.swap(childInd, parentInd);
       parentInd = childInd;
       childInd = this.getCorrectChildIndex(parentInd);
@@ -38,7 +38,7 @@ class Heap {
     let parentInd = this.parentIndex(childInd);
     this.size++;
 
-    while (this.shouldSwap(childInd, parentInd)){
+    while (this.shouldSwap(childInd, parentInd)) {
       this.swap(childInd, parentInd);
       childInd = parentInd;
       parentInd = this.parentIndex(childInd);
@@ -46,13 +46,12 @@ class Heap {
   }
 
   swap(ind1, ind2) {
-    [this.heap[ind1], this.heap[ind2]] =
-      [this.heap[ind2], this.heap[ind1]];
+    [this.heap[ind1], this.heap[ind2]] = [this.heap[ind2], this.heap[ind1]];
   }
 
   validateData(data) {
     if (isNaN(data)) {
-      throw new Error("Data must be a number");
+      throw new Error('Data must be a number');
     }
   }
 
@@ -65,7 +64,7 @@ class Heap {
   }
 
   parentIndex(ind) {
-    return Math.floor((ind - 1)/2);
+    return Math.floor((ind - 1) / 2);
   }
 
   hasLeftChild(ind) {
@@ -86,12 +85,13 @@ export class MinHeap extends Heap {
     return this.heap[childInd] < this.heap[parentInd];
   }
 
-
-  getCorrectChildIndex(parentInd){
-    if (this.hasLeftChild(parentInd)){
-      if (this.hasRightChild(parentInd)){
-        if (this.heap[this.leftChildIndex(parentInd)]
-          <= this.heap[this.rightChildIndex(parentInd)]){
+  getCorrectChildIndex(parentInd) {
+    if (this.hasLeftChild(parentInd)) {
+      if (this.hasRightChild(parentInd)) {
+        if (
+          this.heap[this.leftChildIndex(parentInd)] <=
+          this.heap[this.rightChildIndex(parentInd)]
+        ) {
           return this.leftChildIndex(parentInd);
         } else {
           return this.rightChildIndex(parentInd);
@@ -112,12 +112,13 @@ export class MaxHeap extends Heap {
     return this.heap[childInd] > this.heap[parentInd];
   }
 
-
-  getCorrectChildIndex(parentInd){
-    if (this.hasLeftChild(parentInd)){
-      if (this.hasRightChild(parentInd)){
-        if (this.heap[this.leftChildIndex(parentInd)]
-          >= this.heap[this.rightChildIndex(parentInd)]){
+  getCorrectChildIndex(parentInd) {
+    if (this.hasLeftChild(parentInd)) {
+      if (this.hasRightChild(parentInd)) {
+        if (
+          this.heap[this.leftChildIndex(parentInd)] >=
+          this.heap[this.rightChildIndex(parentInd)]
+        ) {
           return this.leftChildIndex(parentInd);
         } else {
           return this.rightChildIndex(parentInd);
