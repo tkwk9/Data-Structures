@@ -147,7 +147,7 @@ class LinkedList {
   }
 
   printSelf() {
-    let output = ["[Head]"];
+    let output = ['[Head]'];
     let tempNode = this.head;
     while (tempNode.next !== this.tail) {
       tempNode = tempNode.next;
@@ -177,7 +177,7 @@ class LinkedListNode {
     return tempNode;
   }
 
-  deleteNext(){
+  deleteNext() {
     let tempNode = this.next;
     this.next = this.next.next;
     if (this.next) this.next.prev = this;
@@ -242,7 +242,7 @@ class Heap {
     let parentInd = 0;
     let childInd = this.getCorrectChildIndex(0);
 
-    while(this.shouldSwap(childInd, parentInd)) {
+    while (this.shouldSwap(childInd, parentInd)) {
       this.swap(childInd, parentInd);
       parentInd = childInd;
       childInd = this.getCorrectChildIndex(parentInd);
@@ -262,7 +262,7 @@ class Heap {
     let parentInd = this.parentIndex(childInd);
     this.size++;
 
-    while (this.shouldSwap(childInd, parentInd)){
+    while (this.shouldSwap(childInd, parentInd)) {
       this.swap(childInd, parentInd);
       childInd = parentInd;
       parentInd = this.parentIndex(childInd);
@@ -270,13 +270,12 @@ class Heap {
   }
 
   swap(ind1, ind2) {
-    [this.heap[ind1], this.heap[ind2]] =
-      [this.heap[ind2], this.heap[ind1]];
+    [this.heap[ind1], this.heap[ind2]] = [this.heap[ind2], this.heap[ind1]];
   }
 
   validateData(data) {
     if (isNaN(data)) {
-      throw new Error("Data must be a number");
+      throw new Error('Data must be a number');
     }
   }
 
@@ -289,7 +288,7 @@ class Heap {
   }
 
   parentIndex(ind) {
-    return Math.floor((ind - 1)/2);
+    return Math.floor((ind - 1) / 2);
   }
 
   hasLeftChild(ind) {
@@ -310,12 +309,13 @@ class MinHeap extends Heap {
     return this.heap[childInd] < this.heap[parentInd];
   }
 
-
-  getCorrectChildIndex(parentInd){
-    if (this.hasLeftChild(parentInd)){
-      if (this.hasRightChild(parentInd)){
-        if (this.heap[this.leftChildIndex(parentInd)]
-          <= this.heap[this.rightChildIndex(parentInd)]){
+  getCorrectChildIndex(parentInd) {
+    if (this.hasLeftChild(parentInd)) {
+      if (this.hasRightChild(parentInd)) {
+        if (
+          this.heap[this.leftChildIndex(parentInd)] <=
+          this.heap[this.rightChildIndex(parentInd)]
+        ) {
           return this.leftChildIndex(parentInd);
         } else {
           return this.rightChildIndex(parentInd);
@@ -338,12 +338,13 @@ class MaxHeap extends Heap {
     return this.heap[childInd] > this.heap[parentInd];
   }
 
-
-  getCorrectChildIndex(parentInd){
-    if (this.hasLeftChild(parentInd)){
-      if (this.hasRightChild(parentInd)){
-        if (this.heap[this.leftChildIndex(parentInd)]
-          >= this.heap[this.rightChildIndex(parentInd)]){
+  getCorrectChildIndex(parentInd) {
+    if (this.hasLeftChild(parentInd)) {
+      if (this.hasRightChild(parentInd)) {
+        if (
+          this.heap[this.leftChildIndex(parentInd)] >=
+          this.heap[this.rightChildIndex(parentInd)]
+        ) {
           return this.leftChildIndex(parentInd);
         } else {
           return this.rightChildIndex(parentInd);
@@ -384,7 +385,7 @@ class Graph {
     let node = this.getNode(id);
     for (let i = 0; i < node.adjacents.length; i++) {
       const tempNode = node.adjacents[i];
-      if (!visited.has(tempNode.id)){
+      if (!visited.has(tempNode.id)) {
         const result = this.dfs(tempNode.id, targetId, trace, visited);
         if (result) {
           result.prepend(node.id);
@@ -406,7 +407,7 @@ class Graph {
     while (!queue.isEmpty()) {
       const tempNode = queue.pop();
       this.addAdjacents(tempNode, visited, queue, referral);
-      if (tempNode.id === endId){
+      if (tempNode.id === endId) {
         return this.tracePath(tempNode, referral);
       }
     }
@@ -417,7 +418,7 @@ class Graph {
     const trace = new __WEBPACK_IMPORTED_MODULE_0__linked_list__["a" /* LinkedList */]();
     trace.prepend(endNode.id);
     let tempNode = referral[endNode.id];
-    while (tempNode){
+    while (tempNode) {
       trace.prepend(tempNode.id);
       tempNode = referral[tempNode.id];
     }
@@ -459,8 +460,7 @@ class Graph {
   }
 
   addEdge(id1, id2) {
-    this.getNode(id1)
-      .connect(this.getNode(id2));
+    this.getNode(id1).connect(this.getNode(id2));
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Graph;
@@ -481,7 +481,7 @@ class GraphNode {
     return this;
   }
 
-  connect(node){
+  connect(node) {
     this.adjacents.push(node);
     node.adjacents.push(this);
     return node;
@@ -492,7 +492,6 @@ class GraphNode {
     node.adjacents.splice(node.adjacents.indexOf(this), 1);
     return node;
   }
-
 }
 
 
@@ -507,7 +506,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_structures_bst_node__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__seed__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__data_structures_dijkstra__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__seed__ = __webpack_require__(7);
 
 
 
@@ -515,7 +515,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-$( () => {
+
+$(() => {
   window.LinkedList = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["a" /* LinkedList */];
   window.LinkedListNode = __WEBPACK_IMPORTED_MODULE_0__data_structures_linked_list__["b" /* LinkedListNode */];
   window.TreeNode = __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */];
@@ -523,14 +524,15 @@ $( () => {
   window.MinHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["b" /* MinHeap */];
   window.MaxHeap = __WEBPACK_IMPORTED_MODULE_3__data_structures_heap__["a" /* MaxHeap */];
   window.Graph = __WEBPACK_IMPORTED_MODULE_4__data_structures_graph__["a" /* Graph */];
+  window.dijkstra = __WEBPACK_IMPORTED_MODULE_5__data_structures_dijkstra__["a" /* dijkstra */];
 
-  window.g = __WEBPACK_IMPORTED_MODULE_5__seed__["a" /* seedGraph */]();
+  window.g = __WEBPACK_IMPORTED_MODULE_6__seed__["a" /* seedGraph */]();
 
-  window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("root");
+  window.root = new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('root');
 
-  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child1"));
-  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child2"));
-  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]("child3"));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child1'));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child2'));
+  window.root.addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child3'));
 
   window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child1-1'));
   window.root.children[0].addChild(new __WEBPACK_IMPORTED_MODULE_1__data_structures_tree_node__["a" /* TreeNode */]('child1-2'));
@@ -545,7 +547,6 @@ $( () => {
       return [array[0]].concat(window.flatten(array.slice(1)));
     }
   };
-
 });
 
 
@@ -577,7 +578,7 @@ class TreeNode {
     let queue = this.children.slice();
     while (queue.length > 0) {
       let tempNode = queue.shift();
-      queue =  queue.concat(tempNode.children);
+      queue = queue.concat(tempNode.children);
       if (tempNode.data === data) return tempNode;
     }
     return null;
@@ -585,7 +586,7 @@ class TreeNode {
 
   dfs(data) {
     console.log(this.data);
-    if (this.data === data){
+    if (this.data === data) {
       return this;
     } else if (this.isLeaf()) {
       return undefined;
@@ -654,9 +655,8 @@ class BSTNode {
   insert(data) {
     this.validateInput(data);
 
-    const child = (data <= this.data) ? this.leftChild : this.rightChild;
-    const addChild =
-      (data <= this.data) ? this.addLeftChild : this.addRightChild;
+    const child = data <= this.data ? this.leftChild : this.rightChild;
+    const addChild = data <= this.data ? this.addLeftChild : this.addRightChild;
 
     if (child) {
       child.insert(data);
@@ -673,7 +673,7 @@ class BSTNode {
     } else if (this.isLeaf()) {
       return undefined;
     }
-    const child = (data < this.data) ? this.leftChild : this.rightChild;
+    const child = data < this.data ? this.leftChild : this.rightChild;
     if (child) {
       return child.search(data);
     } else {
@@ -709,12 +709,12 @@ class BSTNode {
   }
 
   isLeaf() {
-    return !(this.leftChild) && !(this.rightChild);
+    return !this.leftChild && !this.rightChild;
   }
 
   validateInput(data) {
     if (isNaN(data)) {
-      throw new Error("Data must be an integer");
+      throw new Error('Data must be an integer');
     }
   }
 }
@@ -724,6 +724,69 @@ class BSTNode {
 
 /***/ }),
 /* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = dijkstra;
+let graph;
+
+function resetGraph() {
+  graph = [
+    { value: 'a', ind: 0, neighbors: [[1, 7], [2, 3]] },
+    { value: 'b', ind: 1, neighbors: [[0, 7], [2, 1], [3, 2], [4, 6]] },
+    { value: 'c', ind: 2, neighbors: [[0, 3], [1, 1], [3, 2]] },
+    { value: 'd', ind: 3, neighbors: [[2, 2], [1, 2], [4, 4]] },
+    { value: 'e', ind: 4, neighbors: [[1, 6], [3, 4]] }
+  ];
+}
+
+function dijkstra(start, target) {
+  resetGraph();
+
+  graph.forEach(node => {
+    node.dist = Number.POSITIVE_INFINITY;
+  });
+  const unvisited = new Set(graph);
+  let current = graph[start];
+  unvisited.delete(current);
+  current.dist = 0;
+  while (current) {
+    current.neighbors.forEach(neighbor => {
+      const node = graph[neighbor[0]];
+      if (unvisited.has(node)) {
+        const newDist = neighbor[1] + current.dist;
+        if (node.dist > newDist) {
+          node.dist = newDist;
+          node.prev = current.ind;
+        }
+      }
+    });
+    current = getLowestDist(unvisited);
+  }
+  let output = `[${graph[target].value}]`;
+  target = graph[target].prev;
+  while (target !== undefined) {
+    output = `[${graph[target].value}] => ` + output;
+    target = graph[target].prev;
+  }
+
+  return output;
+}
+
+function getLowestDist(set) {
+  let temp;
+  set.forEach(node => {
+    if (!temp || node.dist < temp.dist) {
+      temp = node;
+    }
+  });
+  set.delete(temp);
+  return temp;
+}
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
